@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html><head><meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdn.tailwindcss.com"></script><title>SHAZI-MD - Pair Code</title></head>
+<body class="bg-[#0a0a1a] text-white flex justify-center p-4">
+<div class="w-full max-w-[400px] bg-[#15152b] rounded-[20px] p-5 border border-purple-900">
+  <div class="flex justify-center"><div class="w-16 h-16 bg-purple-700 rounded-full flex items-center justify-center text-3xl">⚡</div></div>
+  <h1 class="text-center text-2xl font-bold text-purple-600 mt-3">SHAZI-MD</h1>
+  <p class="text-center text-sm text-gray-400">Generate Your Pairing Code</p>
+  <div class="bg-[#1e1e3a] mt-4 p-3 rounded-xl flex justify-between items-center">
+    <div><p class="font-bold">Server 40 <span class="text-[10px] bg-purple-900 px-2 rounded">AUTO</span></p><p class="text-xs text-gray-400">Active: 2 Limit: 2/30</p></div>
+    <button class="bg-[#2a2a4a] px-3 py-1 rounded-full text-sm">Change</button>
+  </div>
+  <div class="mt-5">
+    <label class="text-sm font-bold">WhatsApp Number</label>
+    <input id="number" type="text" placeholder="9232591xxxx" class="w-full mt-2 p-3 rounded-xl bg-[#1e1e3a] border border-purple-800 outline-none">
+    <p class="text-[11px] text-gray-500 mt-1">Include country code (92)</p>
+    <button id="btn" onclick="getCode()" class="w-full mt-4 bg-purple-700 p-3 rounded-xl font-bold">Get Pair Code</button>
+  </div>
+  <div id="codeBox" class="hidden mt-4 border border-purple-700 p-4 rounded-xl text-center">
+    <p id="code" class="text-2xl font-bold tracking-widest">----</p>
+    <div class="flex gap-2 mt-3">
+      <button onclick="copyCode()" class="flex-1 bg-[#2a2a4a] p-2 rounded-xl text-sm">Copy Code</button>
+      <button onclick="location.reload()" class="flex-1 bg-yellow-700 p-2 rounded-xl text-sm">Retry</button>
+    </div>
+  </div>
+</div>
+<script>
+async function getCode(){
+  const num=document.getElementById('number').value;
+  if(!num) return alert('Number likho 92 ke sath');
+  document.getElementById('btn').innerText='Wait 11s...';
+  let c=11; let i=setInterval(()=>{c--; document.getElementById('btn').innerText='Wait '+c+'s'; if(c<=0) clearInterval(i)},1000);
+  try{
+    const res=await fetch(`/api/pair?number=${num}`);
+    const data=await res.json();
+    document.getElementById('codeBox').classList.remove('hidden');
+    document.getElementById('code').innerText=data.code||data.error;
+    document.getElementById('btn').innerText='Get Pair Code';
+  }catch(e){ alert('Error'); document.getElementById('btn').innerText='Get Pair Code'; }
+}
+function copyCode(){ navigator.clipboard.writeText(document.getElementById('code').innerText); alert('Copied!'); }
+</script>
+</body></html>
