@@ -1,8 +1,9 @@
+
 {
-  "name": "shazi-md-pair",
-  "version": "1.0.0",
+  "name": "shazi-md",
+  "type": "module",
   "dependencies": {
-    "@whiskeysockets/baileys": "^6.7.8",
-    "pino": "^8.16.0"
+    "@whiskeysockets/baileys": "^6.7.15",
+    "pino": "^9.0.0"
   }
 }
